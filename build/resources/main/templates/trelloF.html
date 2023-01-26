@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="trelloLayouts/trelloLayouts">
+<body>
+
+<div layout:fragment="addF">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+   +New Folder
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form th:action="@{'/addF'}" method="post">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">ADD NEW FOLDER</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <label>Folder name:</label><br>
+          <input class="form-control" type="text" name="name">
+
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Add Folder</button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+
+<div layout:fragment="allF" class="row mt-5">
+  <form th:action="@{'/deleteF'}" method="post">
+
+  <div th:each="fl: ${folders}" class="card">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title" th:text="${fl.name}"></h5>
+      <a th:href="@{'/trelloD/'+ ${fl.id}}" class="btn btn-primary">Details</a>
+
+
+        <input class="form-control" type="hidden"  name="id" th:value="${fl!=null?fl.id:''}">
+
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModa">
+        X
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModa" tabindex="-1" aria-labelledby="exampleModalLabe" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabe">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure to delete?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+  </form>
+
+</div>
+
+</body>
+</html>

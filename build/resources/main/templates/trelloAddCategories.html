@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="trelloLayouts/trelloLayouts">
+<body>
+
+
+<div layout:fragment="trelloAddCategories">
+    <form th:action="@{'/trelloAddCategories'}" method="post">
+    <label>Category name:</label><br>
+    <input class="form-control" type="text" name="name">
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Add Folder</button>
+    </div>
+    </form>
+</div>
+
+
+</body>
+</html>
