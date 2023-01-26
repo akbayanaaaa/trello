@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layouts/mainAp">
+<body>
+
+<div layout:fragment="getP" class="row mt-5">
+
+  <div class="col-12">
+    <div th:each="ts: ${to}">
+      <table style="border:  solid black; display: flex;">
+        <tr style="width:30%">
+          <td  ><p>Request from <b th:text="${ts.username}"></b></p>
+            <p th:text="${ts.coursename}"></p>
+            <p th:text="${ts.commentary}"></p>
+            <p th:text="${ts.phone}"></p>
+            <p th:text="${ts.teacher.fullname}+ ' - '+${ts.teacher.price}"></p>
+            <p style="color: green" th:if="${ts.handled==true}"><b>Processed requests</b></p>
+
+            <b><a th:href="@{'/getApp/'+${ts.id}}">Details</a></b> </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

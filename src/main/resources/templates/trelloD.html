@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="trelloLayouts/trelloLayouts">
+<body>
+
+<div layout:fragment="trelloC">
+    <h3>Main Tasks</h3>
+
+    <form th:action="@{'/trelloU'}" method="post" th:each="cat: ${folders.taskCategories}"  class="card">
+        <div class="card-header">
+            <div  class="card-body">
+                <button class="btn"> - </button>
+                <input type="hidden" name="category_id" th:value="${cat.id}">
+                <input type="hidden" name="folder_id" th:value="${folders.id}">
+                <a  class="btn btn-primary"  th:text="${cat.name}"></a>
+            </div>
+        </div>
+    </form>
+
+    <p>To choose:</p>
+
+
+
+    <form th:action="@{'/trelloA'}"  method="post"   >
+
+        <select name="category_id" class="form-select" aria-label="Пример выбора по умолчанию">
+            <option th:each="cat: ${categories}" th:text="${cat.name}"  th:value="${cat.id}"></option>
+        </select>
+                <input type="hidden" name="folder_id" th:value="${folders.id}">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        </div>
+
+
+    </form>
+
+</div>
+
+<div layout:fragment="trelloT">
+
+    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        +New Tasks
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form th:action="@{'/addTa'}" method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">ADD NEW TASKS</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <label>Title name:</label><br>
+                        <input class="form-control" type="text" name="title">
+
+                        <label>Description:</label><br>
+                        <input class="form-control" type="text" name="description">
+
+
+                        <input class="form-control" type="hidden" value="0" name="status">
+
+
+                        <input class="form-control" type="hidden"  name="folder_id" th:value="${folders.id}">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Add Folder</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div layout:fragment="trelloAllTasks">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Task Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${folders.id==tsk.folders.id}" th:each="tsk : ${tasks}">
+            <th th:text="${tsk.id}" scope="row"></th>
+            <td th:text="${tsk.title}"></td>
+            <td  th:if="${tsk.status==0}" style="color: blue"> To do</td>
+            <td  th:if="${tsk.status==1}" style="color: yellow"> In test</td>
+            <td  th:if="${tsk.status==2}" style="color: green"> Done</td>
+            <td  th:if="${tsk.status==3}" style="color: red"> Failed</td>
+            <td><button class="btn btn-primary"><a th:href="@{'/trelloDetails/'+${tsk.id}}">Details</a></button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layouts/mainAp">
+<body>
+<div layout:fragment="add" class="container">
+
+
+
+
+
+
+    <div class="row mt-5">
+                        <div class="col-6 offset-3">
+                            <form th:action="@{'/addApp'}" method="post">
+                                <div class="form-group">
+                                    <label>
+                                        UserName:
+                                    </label>
+                                    <input type="text" class="form-control" name="username">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        CourseName:
+                                    </label>
+                                    <input  type="text" class="form-control" name="coursename">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Commentary:
+                                    </label>
+                                    <input style="height: 100px" type="text" class="form-control" name="commentary">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Phone:
+                                    </label>
+                                    <input  type="text" class="form-control" name="phone">
+                                </div>
+                                <div class="form-group">
+                                    <input  type="hidden" class="form-control" value="false" name="handled">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Teacher:
+                                    </label>
+                                    <select class="form-control" name="teacher_id">
+                                        <option class="form-control" th:each="tc : ${teachers}" th:text="${tc.fullname}+ '/'+ ${tc.price}" th:value="${tc.id}"></option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <button class="btn btn-success">Add</button>
+                                </div>
+                            </form>
+            </div>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+</body>
+</html>

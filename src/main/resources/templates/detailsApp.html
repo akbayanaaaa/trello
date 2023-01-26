@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layouts/mainAp">
+
+<body>
+
+
+<div layout:fragment="detailsApp" class="row mt-5">
+
+
+    <div th:if="${get.handled==false}" class="col-6 offset-3">
+        <h3 style="color: red">New request</h3>
+        <form th:action="@{'/saveApp'}" method="post">
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="id" th:value="${get!=null?get.id:''}">
+                <label>
+                    UserName:
+                </label>
+                <input type="text" class="form-control" name="username" th:value="${get!=null?get.username:''}">
+            </div>
+            <div class="form-group">
+                <label>
+                    CourseName:
+                </label>
+                <input type="text" class="form-control" name="coursename" th:value="${get!=null?get.coursename:''}">
+            </div>
+            <div class="form-group">
+                <label>
+                    Commentary:
+                </label>
+                <input style="height: 100px" type="text" class="form-control" name="commentary"
+                       th:value="${get!=null?get.commentary:'0'}">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Phone:
+                </label>
+                <input type="text" class="form-control" name="phone" th:value="${get!=null?get.phone:'0'}">
+            </div>
+
+            <div class="form-group">
+
+                <input type="hidden" class="form-control" name="handle" th:value="${get!=null?get.handled:'0'}">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Teacher:
+                </label>
+                <select class="form-control" name="teacher_id">
+                    <option class="form-control" th:each="tc : ${teachers}" th:text="${tc.fullname} + '-' + ${tc.price}"
+                            th:value="${tc.id}"
+                            th:selected="${get!=null&&get.teacher!=null&&get.teacher.id==tc.id}"></option>
+                </select>
+            </div>
+
+            <br>
+
+
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Save
+            </button>
+
+
+            <!-- Модальное окно -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Закрыть"></button>
+                        </div>
+                        <div class="modal-body">
+
+                                <div style="display: block" th:each="opt : ${operators}">
+                                    <form th:action="@{'/assign'}" method="post">
+                                        <input type="hidden" th:value="${get.id}" name="app_id">
+                                        <input type="hidden" th:value="${opt.id}" name="op_id">
+
+                                        <h3 th:text="${opt.name} + ' / ' + ${opt.surname} + ' / ' + ${opt.department}"  ></h3>
+                                        <button class="btn btn-success  btn-sm"> + </button>
+                                    </form>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+        <form th:action="@{'/deleteApp'}" method="post">
+            <input type="hidden" class="form-control" name="id" th:value="${get!=null?get.id:''}">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+
+
+    </div>
+
+
+    <div th:unless="${get.handled==false}" class="col-6 offset-3">
+        <h3 style="color: green">Processed request</h3>
+        <div class="form-group">
+            <input type="hidden" class="form-control" name="id" th:value="${get!=null?get.id:''}">
+            <label>
+                UserName:
+            </label>
+            <input type="text" class="form-control" name="username" th:value="${get!=null?get.username:''}">
+        </div>
+        <div class="form-group">
+            <label>
+                CourseName:
+            </label>
+            <input type="text" class="form-control" name="coursename" th:value="${get!=null?get.coursename:''}">
+        </div>
+        <div class="form-group">
+            <label>
+                Commentary:
+            </label>
+            <input style="height: 100px" type="text" class="form-control" name="commentary"
+                   th:value="${get!=null?get.commentary:'0'}">
+        </div>
+
+        <div class="form-group">
+            <label>
+                Phone:
+            </label>
+            <input type="text" class="form-control" name="phone" th:value="${get!=null?get.phone:'0'}">
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" class="form-control" name="handle" th:value="${get!=null?get.handled:'0'}">
+        </div>
+
+        <div class="form-group">
+            <label>
+                Teacher:
+            </label>
+            <select class="form-control" name="teacher_id">
+                <option class="form-control" th:each="tc : ${teachers}" th:text="${tc.fullname} + '-' + ${tc.price}"
+                        th:value="${tc.id}"
+                        th:selected="${get!=null&&get.teacher!=null&&get.teacher.id==tc.id}"></option>
+            </select>
+        </div>
+
+
+        <form th:action="@{'/unassigncategory'}" method="post" th:each="cat : ${get.operators}">
+
+            <button> -</button>
+
+            <input type="hidden" name="opid" th:value="${cat.id}">
+
+            <input type="hidden" name="appid" th:value="${get.id}">
+
+            <span th:text="${cat.name}"></span>
+
+            <br><br>
+
+        </form>
+
+
+
+
+
+        <br>
+        <form th:action="@{'/deleteApp'}" method="post">
+            <input type="hidden" class="form-control" name="id" th:value="${get!=null?get.id:''}">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

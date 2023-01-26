@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="layouts/layout">
+
+<body>
+<div layout:fragment="details" class="row mt-5">
+    <div class="col-6 offset-3">
+        <form th:action="@{'/edit'}" method="post">
+        <div class="form-group">
+            <input type="hidden" class="form-control" name="id" th:value="${task!=null?task.id:''}">
+            <label>
+                Task Name:
+            </label>
+            <input type="text" class="form-control" name="name" th:value="${task!=null?task.name:''}">
+        </div>
+
+        <div class="form-group">
+            <label>
+                Task Description:
+            </label>
+            <input type="text" class="form-control" name="description" th:value="${task!=null?task.description:''}">
+        </div>
+
+
+        <div class="form-group">
+            <label>
+                Task deadline date:
+            </label>
+            <input type="text" class="form-control" name="deadlineDate" th:value="${task!=null?task.deadlineDate:'0:0:0'}">
+        </div>
+
+        <div class="form-group">
+            <label >
+                Completed:
+            </label>
+
+            <select  th:if="${task.isCompleted()==true}">
+                <option name="isCompleted" >Yes</option>
+                <option name="isCompleted">No</option>
+            </select>
+
+            <select  th:unless="${task.isCompleted()==true}">
+                <option name="isCompleted">No</option>
+                <option name="isCompleted"  >Yes</option>
+            </select>
+
+
+
+        </div>
+        <br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+        <br>
+        <a th:href="@{'/remove/'+ ${task.id}}" class="btn btn-danger">Remove</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
